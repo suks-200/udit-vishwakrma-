@@ -38,10 +38,8 @@ const assets = [
 ];
 
 const categories = ["All", "Photo Editing", "Banners", "Posters", "Social Media", "Creative Designs", "Other"];
-const featured = assets.slice(0, 5);
 const gallery = document.querySelector("#masonry");
 const filters = document.querySelector("#filters");
-const featuredGrid = document.querySelector("#featured-grid");
 const viewer = document.querySelector(".viewer");
 const viewerImage = viewer.querySelector("img");
 const viewerTitle = viewer.querySelector("#viewer-title");
@@ -86,18 +84,6 @@ function renderGallery() {
   const visible = assets.filter(item => activeFilter === "All" || item.category === activeFilter);
   visible.forEach((item, index) => gallery.appendChild(makeCard(item, assets.indexOf(item))));
   document.querySelector("#gallery-empty").hidden = visible.length > 0;
-}
-
-function renderFeatured() {
-  featured.forEach(item => {
-    const card = document.createElement("button");
-    card.className = "featured-card reveal";
-    card.type = "button";
-    card.setAttribute("aria-label", `Open ${item.title}`);
-    card.innerHTML = `<img src="${item.src}" alt="${item.title}" loading="lazy"><span class="featured-card-info"><span><h3>${item.title}</h3><span>${item.category}</span></span><i class="view">↗</i></span>`;
-    card.addEventListener("click", () => openViewer(assets.indexOf(item)));
-    featuredGrid.appendChild(card);
-  });
 }
 
 function openViewer(index) {
@@ -246,11 +232,10 @@ window.addEventListener("mousemove", event => {
   cursorDot.style.transform = `translate(${cursorX}px,${cursorY}px) translate(-50%,-50%)`;
   cursorRing.style.transform = `translate(${cursorX}px,${cursorY}px) translate(-50%,-50%)`;
 });
-document.querySelectorAll("a,button,.gallery-card,.featured-card").forEach(element => {
+document.querySelectorAll("a,button,.gallery-card").forEach(element => {
   element.addEventListener("mouseenter", () => cursorRing.classList.add("hovered"));
   element.addEventListener("mouseleave", () => cursorRing.classList.remove("hovered"));
 });
 
 renderFilters();
 renderGallery();
-renderFeatured();
